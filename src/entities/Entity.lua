@@ -1,7 +1,6 @@
 local SpriteMap = require "src.entities.SpriteMap"
 
-local Entity = function(game)
-    assert(game, "need to provide game for entity")
+local Entity = function()
     local entity = {}
 
     entity.x = 0

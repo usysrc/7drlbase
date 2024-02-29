@@ -4,36 +4,29 @@
 
 local Gamestate = require("libs.hump.gamestate")
 local Timer     = require("libs.hump.timer")
-local Vector    = require("libs.hump.vector")
 local Hero      = require("src.entities.Hero")
 local Goblin    = require("src.entities.Goblin")
-local Tween     = Timer.tween
-local Map       = require("src.entities.Map")
 local Win       = require("src.states.Win")
 local SpriteMap = require("src.entities.SpriteMap")
-
+local World     = require("src.entities.World")
 local Game      = Gamestate.new()
 
-function Game:enter()
-	Game.objects = {}
-	Game.map = Map()
-	Game.w = 32
-	Game.h = 32
 
+function Game:enter()
 	SpriteMap.clear()
 
-	local hero = Hero(Game)
-	add(Game.objects, hero)
+	local hero = Hero()
+	add(World.objects, hero)
 
-	local goblin = Goblin(Game)
-	add(Game.objects, goblin)
+	local goblin = Goblin()
+	add(World.objects, goblin)
 
 	Game:drawToSpriteMap()
 end
 
 function Game:update(dt)
 	Timer.update(dt)
-	for obj in all(Game.objects) do
+	for obj in all(World.objects) do
 		obj:update()
 	end
 end
@@ -46,13 +39,13 @@ end
 
 function Game:drawToSpriteMap()
 	SpriteMap.clear()
-	for obj in all(Game.objects) do
+	for obj in all(World.objects) do
 		obj:draw()
 	end
 end
 
 function Game:turn()
-	for obj in all(Game.objects) do
+	for obj in all(World.objects) do
 		obj:turn()
 	end
 	Game:drawToSpriteMap()
@@ -63,9 +56,10 @@ function Game:mousepressed(x, y, button)
 end
 
 function Game:keypressed(key)
-	for obj in all(Game.objects) do
+	for obj in all(World.objects) do
 		obj:keypressed(key)
 	end
+	Game:turn()
 end
 
 return Game
