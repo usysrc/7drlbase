@@ -11,7 +11,6 @@ local SpriteMap = require("src.entities.SpriteMap")
 local World     = require("src.entities.World")
 local Game      = Gamestate.new()
 
-
 function Game:enter()
 	SpriteMap.clear()
 

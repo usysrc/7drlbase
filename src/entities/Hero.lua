@@ -7,9 +7,12 @@ local Hero   = function()
     hero.char = "A"
     hero.x = 32
     hero.y = 32
+
     hero.update = function(self)
+
     end
-    hero.handleInput = function(self, key)
+
+    hero.moveInput = function(self, key)
         local dx, dy = 0, 0
         if key == "left" then
             dx = dx - 1
@@ -25,22 +28,24 @@ local Hero   = function()
         end
         return dx, dy
     end
+
     hero.keypressed = function(self, key)
-        local dx, dy = self:handleInput(key)
+        local dx, dy = self:moveInput(key)
         local tx = hero.x + dx
         local ty = hero.y + dy
 
         if World.map:isBlocked(tx, ty) then
-            goto turn
+            return
         end
+
         for obj in all(World.objects) do
             if obj ~= hero and obj.x == tx and obj.y == ty then
-                goto turn
+                return
             end
         end
 
+        -- actually move the hero
         hero.x, hero.y = tx, ty
-        :: turn ::
     end
     return hero
 end

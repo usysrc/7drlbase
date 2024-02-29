@@ -74,23 +74,23 @@ local function string_to_int_char(string)
     return string.byte(char)
 end
 
-local setChar = function(char, x, y)
+local setChar = function(char, x, y, color)
     map[x][y] = char
-    spritebatch:setColor(0, 0, 0)
+    spritebatch:setColor(color or { 0, 0, 0 })
     spritebatch:set(idmap[x][y], quads[map[x][y]], x * 12, y * 12)
 end
 
-local set = function(str, x, y)
+local set = function(str, x, y, color)
     local char = string_to_int_char(str)
     if char == nil then
         return "Invalid character: " .. str
     end
-    setChar(char, x, y)
+    setChar(char, x, y, color)
 end
 
-local write = function(what, x, y)
+local write = function(what, x, y, color)
     for i = 1, #what do
-        local err = set(what:sub(i, i), x + i - 1, y)
+        local err = set(what:sub(i, i), x + i - 1, y, color)
         if err then
             return err
         end
